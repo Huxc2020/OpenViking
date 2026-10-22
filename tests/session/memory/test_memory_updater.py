@@ -270,7 +270,7 @@ class TestMemoryUpdater:
         ]
         original = deepcopy(messages)
         context = ExtractContext(messages)
-        speaker = peer_id or "assistant"
+        speaker = f"assistant [peer={peer_id}]" if peer_id else "assistant"
         expected = (
             f"**{speaker}**: Started writing. Keep spacing.\n**{speaker}**: Finished writing."
         )
@@ -322,8 +322,10 @@ class TestMemoryUpdater:
         context = ExtractContext(messages)
 
         assert len(context.messages) > len(messages)
+        assistant_speaker = f"assistant [peer={peer_id}]" if peer_id else "assistant"
+        user_speaker = f"user [peer={peer_id}]" if peer_id else "user"
         assert context.get_event_content(f"0-{len(context.messages) - 1}", "", 0) == (
-            f"**{peer_id or 'assistant'}**: {text}\n**{peer_id or 'user'}**: Confirmed."
+            f"**{assistant_speaker}**: {text}\n**{user_speaker}**: Confirmed."
         )
 
     def test_create(self):
