@@ -100,9 +100,7 @@ class TestMemoryUpdater:
             ]
         )
         registry = MemoryTypeRegistry(load_schemas=False)
-        registry.load_from_yaml(
-            str(PromptManager._get_bundled_templates_dir() / "memory" / "events.yaml")
-        )
+        registry.load_from_yaml(str(builtin_memory_templates_dir() / "events.yaml"))
         schema = registry.get("events")
         assert schema is not None
         rendered = MemoryFileUtils.write(
